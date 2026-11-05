@@ -1,0 +1,33 @@
+##
+#  Copyright (c) 2023 - 2026, Project Silicium Authors.
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = AcpiTableUpdateLib
+  FILE_GUID                      = A793DF18-8A32-4527-8B77-4589258B124C
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = AcpiTableUpdateLib|DXE_DRIVER
+
+[Sources]
+  AcpiTableUpdate.c
+
+[Packages]
+  ArmPkg/ArmPkg.dec
+  MdePkg/MdePkg.dec
+  QcomPkg/QcomPkg.dec
+  SiliciumPkg/SiliciumPkg.dec
+
+[LibraryClasses]
+  DebugLib
+  AslUpdateLib
+  MemoryMapHelperLib
+  UefiBootServicesTableLib
+  IoLib
+
+[Protocols]
+  gEfiChipInfoProtocolGuid
+  gEfiPlatformInfoProtocolGuid
+  gEfiSMEMProtocolGuid
