@@ -1,6 +1,48 @@
-# Project Silicium UEFI for ARM64-Based Devices
+# Mu-Silicium for Xiaomi 13 Lite (ziyi)
 
 <!-- ![Banner](https://github.com/Project-Silicium/Mu-Silicium/blob/main/Resources/Pictures/Banner.png) -->
+
+Experimental Xiaomi 13 Lite port of [Project Silicium](https://github.com/Project-Silicium/Mu-Silicium).
+Target: Snapdragon 7 Gen 1, SM7450 / Diwali, 8 GB RAM, 1080x2400 display.
+
+## ziyi status
+
+- Graphical UEFI boot-device menu, volume navigation and power-button confirmation work on the test phone.
+- Another Android phone detects USB Mass Storage; complete storage I/O is not validated.
+- ADC is intentionally unavailable. No Windows/Linux boot, ziyi ACPI tables or Windows drivers are supplied.
+- Added bring-up traces are removed; native DEBUG output and real errors remain.
+
+**Test with `fastboot boot` only. Do not flash this experimental image over Android boot or other firmware partitions.**
+
+## Build the ziyi port
+
+Install native build dependencies described in [Building.md](Building.md#xiaomi-13-lite-ziyi), then:
+
+```bash
+git clone --recurse-submodules https://github.com/wannqn/mu-silicium-ziyi.git
+cd mu-silicium-ziyi
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r pip-requirements.txt
+
+export CLANGPDB_AARCH64_PREFIX=aarch64-linux-gnu-
+python build_uefi.py -d ziyi -r DEBUG
+```
+
+The standard platform pre-build hook installs the tracked vendor overlay into
+`Binaries/ziyi` automatically on the first build. The adapted drivers
+(`.patched.efi`) are pre-built and tracked directly in `Resources/DeviceBinaries/ziyi`.
+
+Output: `Mu-ziyi.img`. Test from a host with Android platform-tools:
+
+```text
+fastboot boot Mu-ziyi.img
+```
+
+See [build notes and firmware provenance](Building.md#xiaomi-13-lite-ziyi) for limitations,
+native regression commands and bring-up evidence. Vendor firmware inputs are tracked
+under `Resources/DeviceBinaries/ziyi`, including the pre-built adapted drivers.
+
 
 ## Description
 
@@ -34,3 +76,7 @@ This Project focuses on Making ARM-Based Devices Boot Operating Systems like Win
 
 All code except drivers in `GPLDrivers` & `GPLApplications` & `GPLLibrary` directories are licensed under BSD-2-Clause. <br />
 GPL Drivers are licensed under `GPLv2` or later license.
+
+The extracted vendor firmware inputs in `Resources/DeviceBinaries/ziyi` are not
+open-source driver implementations and are not relicensed by this fork. Their
+original ownership and licensing apply; provenance is recorded in `Building.md`.

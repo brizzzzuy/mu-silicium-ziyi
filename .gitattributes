@@ -1,0 +1,3 @@
+# Preserve extracted firmware inputs byte-for-byte, including short DEPEX blobs.
+/Resources/DeviceBinaries/ziyi/** -text
+/Resources/DTBs/*.dtb -text

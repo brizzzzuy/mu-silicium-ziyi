@@ -4,10 +4,10 @@ _Head:
 
 #if REQUIRES_KERNEL_HEADER == 1
 _StackBase:
-  .quad FD_BASE         /* Text Offset */
+  .quad 0x80000         /* ARM64 Image offset relative to the loader's RAM base */
 
 _StackSize:
-  .quad FD_SIZE         /* Image Size */
+  .quad FD_SIZE + (_Payload - _Head) /* Entire Image, including this shim */
   .quad 0               /* Flags */
   .quad 0               /* Reserved */
   .quad 0               /* Reserved */

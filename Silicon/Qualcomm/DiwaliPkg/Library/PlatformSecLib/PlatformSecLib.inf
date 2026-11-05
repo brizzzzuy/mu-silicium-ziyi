@@ -1,0 +1,34 @@
+##
+#  Copyright (c) 2011-2012, ARM Limited. All rights reserved.
+#  Copyright (c) 2023-2026, Project Silicium Authors.
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+##
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = PlatformSecLib
+  FILE_GUID                      = B6A1DF60-705A-4FE4-839A-7B5E28567A32
+  MODULE_TYPE                    = SEC
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = PlatformSecLib
+
+[Sources]
+  PlatformSec.c
+
+[Sources.AArch64]
+  AArch64/PlatformHelper.S
+
+[Packages]
+  ArmPkg/ArmPkg.dec
+  MdePkg/MdePkg.dec
+  SiliciumPkg/SiliciumPkg.dec
+  QcomPkg/QcomPkg.dec
+
+[LibraryClasses]
+  IoLib
+  ConfigurationMapHelperLib
+  ArmSmmuDetachLib
+  PcdLib
+
+[FixedPcd]
+  gArmTokenSpaceGuid.PcdGicRedistributorsBase

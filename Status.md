@@ -1601,6 +1601,29 @@
 <details>
 <summary><b><strong>Xiaomi Devices</strong></b></summary>
 
+## Xiaomi 13 Lite
+
+**State:** Inactive <br>
+**Codename:** ziyi
+
+Experimental: hardware reaches the graphical boot-device menu; no operating-system boot yet. Snapdragon 7 Gen 1 (SM7450 / Diwali),
+8 GB RAM, 1080x2400 display. Platform layout follows ingres / Waipio, with
+Diwali register definitions and device-specific stock ziyi firmware binaries.
+
+| Feature | Status |
+|:--------|:-------|
+| DEBUG build | Passed, CLANGPDB / LLVM 18; Android v4 image generated |
+| BootShim relocation | Emulated; copies 3 MiB to 0xA7100000 and preserves the DT pointer |
+| UEFI boot on device | Resident-Keymaster image passes the previous QSEE assert, reaches graphical boot flow and boot-device menu; no bootable OS found |
+| Display | Early logs and later graphical boot-manager/menu output confirmed by user recording/photo; OS handoff not tested |
+| PMIC ADC | Explicitly unavailable in the current diagnostic, approved by the user: native EFI_UNSUPPORTED, no ADC protocol or fabricated measurements |
+| UFS | Native ACTIVE recovery progresses to partition image loading and QSEE startup; complete media/partition correctness and sustained I/O remain unverified |
+| Buttons | Volume navigation and power-to-Enter selection confirmed by user; quiet build retains both without added input traces |
+| USB and charging | Another Android phone detects USB Mass Storage over USB-C; actual file reads/writes, USB-host boot and charging remain unverified |
+| Windows / Linux boot | Not tested; no device ACPI tables supplied |
+
+See [ziyi build notes](Building.md#xiaomi-13-lite-ziyi) for sources and limitations.
+
 ## Xiaomi 13 Pro
 
 <img align="right" src="Resources/Pictures/Xiaomi-13-Pro.png" width="350" alt="Preview">
