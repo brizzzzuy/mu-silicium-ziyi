@@ -22,6 +22,7 @@
 #include <Configuration/BootDevices.h>
 
 #include "BootManager.h"
+#include "XnuLoader.h"
 
 //
 // Global Variables
@@ -203,6 +204,12 @@ EFIAPI
 PlatformBootManagerUnableToBoot ()
 {
   EFI_STATUS Status;
+
+  // HakiOS: on a device that opted in (XNU_PAYLOAD_BASE in its .dsc), a payload the boot shim put behind
+  // the FD starts the XNU loader, which does not return. Without one, the usual path below runs as before.
+  if (XNU_LOADER_ENABLED && ((XNU_PAYLOAD_HEADER *)(UINTN)XNU_PAYLOAD_BASE)->Magic == XNU_PAYLOAD_MAGIC) {
+    XnuLoaderMain ();
+  }
 
   // Execute Secondary Unable To Boot
   DeviceBootManagerUnableToBoot ();

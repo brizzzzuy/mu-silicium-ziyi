@@ -39,7 +39,13 @@ gMemoryDescriptor[] = {
   {"Sched Heap",        0xA76D9000, 0x00400000, AddMem, SYS_MEM, SYS_MEM_CAP, BsData, WRITE_BACK_XN},
   {"FV Region",         0xA7AD9000, 0x00400000, AddMem, SYS_MEM, SYS_MEM_CAP, BsData, WRITE_BACK_XN},
   {"UEFI RESV",         0xA7ED9000, 0x00127000, AddMem, SYS_MEM, SYS_MEM_CAP, BsData, WRITE_BACK_XN},
-  {"Kernel",            0xA8000000, 0x10000000, AddMem, SYS_MEM, SYS_MEM_CAP, Reserv, WRITE_BACK_XN},
+  // HakiOS: the boot shim copies the "XNUP" payload to 0xB0000000 (devices/ziyi/boot.conf, PAYLOAD_BASE): the middle of
+  // the kernel reservation ABL loads the boot image into (at 0xA8080000, a few MiB), which this map keeps reserved.
+  // redwood's 0xF0000000 is inside "TZApps Reserved" here; 0xF8000000, the bottom of the DXE heap, reset the phone
+  // before this UEFI drew anything (6 November): stock firmware's resident state lives there.
+  {"Kernel",            0xA8000000, 0x08000000, AddMem, SYS_MEM, SYS_MEM_CAP, Reserv, WRITE_BACK_XN},
+  {"XNU Payload",       0xB0000000, 0x04000000, AddMem, SYS_MEM, SYS_MEM_CAP, Reserv, WRITE_BACK_XN},
+  {"Kernel",            0xB4000000, 0x04000000, AddMem, SYS_MEM, SYS_MEM_CAP, Reserv, WRITE_BACK_XN},
   {"Display Reserved",  0xB8000000, 0x02B00000, AddMem, MEM_RES, SYS_MEM_CAP, Reserv, WRITE_THROUGH_XN},
   {"OEM VM",            0xBB000000, 0x05000000, AddMem, SYS_MEM, SYS_MEM_CAP, Reserv, WRITE_BACK_XN},
   {"MTE Reserved",      0xC0000000, 0x20000000, AddMem, SYS_MEM, SYS_MEM_CAP, Reserv, WRITE_BACK_XN},

@@ -28,6 +28,14 @@
 
 !include DiwaliPkg/DiwaliPkg.dsc.inc
 
+[BuildOptions]
+  #
+  # HakiOS (devices/ziyi/boot.conf): where the payload is on this phone, and nothing written to its storage
+  # (the boot manager's XNU hook keeps its log in RAM instead of the logdump partition, and shows on the screen
+  # what it did, waiting 60 s before it resets: XNU_SCREEN_LOG).
+  #
+  *_CLANGPDB_*_CC_FLAGS = -D XNU_PAYLOAD_BASE=0xB0000000ULL -D XNU_NO_STORAGE_WRITES -D XNU_SCREEN_LOG
+
 [PcdsFixedAtBuild]
   #
   # DDR Memory
